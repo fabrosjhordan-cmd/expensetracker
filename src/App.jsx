@@ -1,9 +1,34 @@
+import AddExpenseForm from "./components/AddExpenseForm"
+import ExpenseList from "./components/ExpenseList"
+import FillerTab from "./components/FillerTab"
+import Headers from "./components/Headers"
+import SummaryCard from "./components/SummaryCard"
+import Toast from "./components/Toast"
 
 function App() {
 
   return (
-    <div>
-      <h1 className="text-4xl text-bold">Hello World!</h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-800 to-slate-900 p-4">
+      {/* <Toast /> */}
+      <div className="max-w-7xl mx-auto">
+        <Headers />
+
+        <SummaryCard />
+
+        <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
+          <div className="xl:col-span-2">
+            <AddExpenseForm />
+          </div>
+
+          <div className="xl:col-span-3">
+            <div className="bg-white/5 backdrop-blur-lg rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+            <FillerTab />
+
+            <ExpenseList />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
