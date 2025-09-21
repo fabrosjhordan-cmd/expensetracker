@@ -88,7 +88,7 @@ function AddExpenseForm({formData, setFormData, editingId, setIsEditingId, expen
             <label className='block text-gray-300 text-sm font-semibold mb-3 uppercase tracking-wide'>
                 Description
             </label>
-            <input type='text' value={formData.description} onChange={(e)=>{setFormData({...formData, description: e.target.value}); if(errors.description) setErrors({...errors, description: ''})}} placeholder="What's this for?" className={`w-full px-6 py-4 bg-gray-800/50 border-2 rounded-2xl text-white placeholder-gray-500 focus:ring-2 focus-ring-purple-500 focus:border-purple-500 transition-all`} />
+            <input type='text' value={formData.description} onChange={(e)=>{setFormData({...formData, description: e.target.value}); if(errors.description) setErrors({...errors, description: ''})}} placeholder="What's this for?" className={`w-full pl-12 pr-6 py-4 bg-gray-800/50 border-2 rounded-2xl text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all ${errors.amount ? 'border-red-500' : 'border-gray-600 focus:border-purple-500'}`} />
             {errors.description &&(
             <p className='text-red-400 text-sm mt-2 flex items-center'>
                 <AlertCircle className='w-4 h-4 mr-1'/>

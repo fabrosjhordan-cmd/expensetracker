@@ -39,6 +39,30 @@ function App() {
 
   const balance = totalIncome - totalExpenses;
 
+  const filterExpenses = expense.filter((exp)=>{
+    if(filter === 'all') return true;
+    return exp.type === filter;
+
+  })
+
+  const handleEdit = (expense) =>{
+    setFormData({
+      description: expense.description,
+      amount: expense.amount.toString(),
+      category: expense.category,
+      date: expense.date,
+      type: expense.type
+    })
+    setIsEditingId(expense.id);
+    showToast("Entry loaded for editing.", 'info')
+  }
+
+  const handleDelete= (id) =>{
+    const expenseToDelete = expense.find((exp)=> exp.id === id)
+    setExpense(expense.filter((exp)=> exp.id !== id))
+    showToast(`${expenseToDelete?.type === 'income' ? 'Income' : 'Expense'} deleted successfully`, 'error')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-800 to-slate-900 p-4">
       <Toast Toast={toast} removeToast={removeToast}/>
@@ -54,9 +78,9 @@ function App() {
 
           <div className="xl:col-span-3">
             <div className="bg-white/5 backdrop-blur-lg rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
-            <FillerTab />
+            <FillerTab filter={filter} setFilter={setFilter}/>
 
-            <ExpenseList />
+            <ExpenseList filterExpenses={filterExpenses} handleEdit={handleEdit} handleDelete={handleDelete} />
             </div>
           </div>
         </div>

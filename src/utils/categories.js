@@ -9,8 +9,7 @@ expense: [
     "Education",
     "Travel",
     "Other"
-],
-
+        ],
 
 income: [
     "Salary",
@@ -20,5 +19,5 @@ income: [
     "Gift",
     "Bonus",
     "Other"
-]
+        ]
 }
