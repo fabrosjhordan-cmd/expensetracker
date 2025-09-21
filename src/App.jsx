@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AddExpenseForm from "./components/AddExpenseForm"
 import ExpenseList from "./components/ExpenseList"
 import FillerTab from "./components/FillerTab"
@@ -18,6 +18,21 @@ function App() {
   const [expense, setExpense] = useState([]);
   const [filter, setFilter] = useState('all');
   const [toast, setToast] = useState([]);
+
+  useEffect(() => {
+    const savedExpense = JSON.parse(localStorage.getItem('expense'));
+    if(savedExpense){
+      setExpense(savedExpense);
+    }
+  }, [])
+  
+
+  useEffect(() => {
+    if(expense.length > 0 ){
+      localStorage.setItem("expense", JSON.stringify(expense))
+    }
+  }, [expense])
+  
 
   const showToast = (message, type="success") =>{
     const id = Date.now();
