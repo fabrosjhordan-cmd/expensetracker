@@ -7,17 +7,17 @@ function Toast({Toast, removeToast}) {
       {Toast.map((t)=>{
         return(
           <div className={`flex items-center p-4 rounded-lg shadow-lg backdrop-blur-sm border transform transition-all duration-300 easy-in-out ${
-          Toast.type === "success" ? 'bg-green-900/80 border-green-700 text-green-100' : 
-          Toast.type === "error" ? 'bg-red-900/80 border-red-700 text-red-100' : 
+          t.type === "success" ? 'bg-green-900/80 border-green-700 text-green-100' : 
+          t.type === "error" ? 'bg-red-900/80 border-red-700 text-red-100' : 
           'bg-yellow-900/80 border-yellow-700 text-yellow-100'
         }`}>
-            {Toast.type === "success" &&(<Check className='w-5 h-5 mr-2 flex-shrink-0' />)}
+            {t.type === "success" &&(<Check className='w-5 h-5 mr-2 flex-shrink-0' />)}
 
-            {Toast.type === "error" &&(<AlertCircle className='w-5 h-5 mr-2 flex-shrink-0' />)}
+            {t.type === "error" &&(<AlertCircle className='w-5 h-5 mr-2 flex-shrink-0' />)}
 
-            {Toast.type === "info" &&(<AlertCircle className='w-5 h-5 mr-2 flex-shrink-0' />)}
+            {t.type === "info" &&(<AlertCircle className='w-5 h-5 mr-2 flex-shrink-0' />)}
 
-            <span className='mr-2'>{Toast.message}</span>
+            <span className='mr-2'>{t.message}</span>
             <button className='ml-auto text-gray-300 hover:text-white transition-colors'
                     onClick={()=>removeToast(t.id)}
             >

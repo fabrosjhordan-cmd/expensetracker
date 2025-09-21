@@ -7,6 +7,13 @@ import SummaryCard from "./components/SummaryCard"
 import Toast from "./components/Toast"
 
 function App() {
+  const [formData, setFormData] = useState({
+    description: '',
+    amount: '',
+    category: '',
+    date: '',
+    type: 'income'
+  })
   const [editingId, setIsEditingId] = useState(null);
   const [expense, setExpense] = useState([]);
   const [filter, setFilter] = useState('all');
@@ -26,17 +33,23 @@ function App() {
     setToast((prev)=> prev.filter((t)=> t.id !== id))
   }
 
+  const totalIncome = expense.filter((exp)=> exp.type === 'income').reduce((acc, exp) => acc+exp.amount, 0);
+
+  const totalExpenses = expense.filter((exp)=> exp.type === 'expense').reduce((acc, exp) => acc+exp.amount, 0);
+
+  const balance = totalIncome - totalExpenses;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-800 to-slate-900 p-4">
       <Toast Toast={toast} removeToast={removeToast}/>
       <div className="max-w-7xl mx-auto">
         <Headers />
 
-        <SummaryCard />
+        <SummaryCard totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance}/>
 
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
           <div className="xl:col-span-2">
-            <AddExpenseForm />
+            <AddExpenseForm formData={formData} setFormData={setFormData} editingId={editingId} setIsEditingId={setIsEditingId} expense={expense} setExpense={setExpense} showToast={showToast} />
           </div>
 
           <div className="xl:col-span-3">
