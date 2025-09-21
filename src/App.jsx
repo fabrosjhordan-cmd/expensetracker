@@ -1,3 +1,4 @@
+import { useState } from "react"
 import AddExpenseForm from "./components/AddExpenseForm"
 import ExpenseList from "./components/ExpenseList"
 import FillerTab from "./components/FillerTab"
@@ -6,10 +7,28 @@ import SummaryCard from "./components/SummaryCard"
 import Toast from "./components/Toast"
 
 function App() {
+  const [editingId, setIsEditingId] = useState(null);
+  const [expense, setExpense] = useState([]);
+  const [filter, setFilter] = useState('all');
+  const [toast, setToast] = useState([]);
+
+  const showToast = (message, type="success") =>{
+    const id = Date.now();
+    const toast = {id, message, type}
+    setToast((prev)=> [...prev, toast])
+
+    setTimeout(() => {
+      setToast((prev)=> prev.filter((t)=> t.id !== id))
+    }, 4000);
+  }
+
+  const removeToast = (id) =>{
+    setToast((prev)=> prev.filter((t)=> t.id !== id))
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-800 to-slate-900 p-4">
-      {/* <Toast /> */}
+      <Toast Toast={toast} removeToast={removeToast}/>
       <div className="max-w-7xl mx-auto">
         <Headers />
 
