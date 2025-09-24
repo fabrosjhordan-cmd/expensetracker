@@ -2,7 +2,7 @@ import { AlertCircle, Plus, TrendingDown, TrendingUp } from 'lucide-react'
 import React, { useState } from 'react'
 import { categories } from '../utils/categories';
 
-function AddExpenseForm({formData, setFormData, editingId, setIsEditingId, expense, setExpense, showToast}) {
+function AddExpenseForm({formData, setFormData, editingId, setIsEditingId, expense, setExpense, showToast, fetchData}) {
     const [errors, setErrors] = useState({});
 
     const validate = () =>{
@@ -24,23 +24,45 @@ function AddExpenseForm({formData, setFormData, editingId, setIsEditingId, expen
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     }
-
+    
     const handleSubmit = () =>{
         if(!validate()){
             showToast('Please fix the errors on the form', 'error');
             return;
         }
         const expenseData = {...formData, amount: parseFloat(formData.amount), id: editingId || Date.now()}
-
+        if(expense.length > 0){
         if(editingId){
             setExpense((prev)=> prev.map((exp) => exp.id === editingId ? expenseData : exp));
+            fetch(`http://localhost:8081/expense/${editingId}`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formData)
+            })
+            .then(res=>res.json())
+            .then(result=>{
+            setIsEditingId(null)
+            setFormData({description: '', amount: '', category: '', date: '', type: 'income'})
+            fetchData()
+            })
+            .catch(err=> console.log(err));
             setIsEditingId(null)
             showToast("Entry updated successfully", 'success')
         }else{
             setExpense([...expense, expenseData])
+            fetch('http://localhost:8081/expense',{
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formData)
+            })
+            .then(res=>res.json())
+            .then(result=>{
+            setFormData({description: '', amount: '', category: '', date: '', type: 'income'})
+            fetchData()
+            })
             showToast(`${formData.type === 'income' ? 'Income' : 'Expense'} added successfully`, 'success')
         }
-
+    }
         setFormData({ description: '', amount: '', category:'', date:'', type:'expense'});
         setErrors({});
     }

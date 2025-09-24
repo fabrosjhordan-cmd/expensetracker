@@ -19,19 +19,30 @@ function App() {
   const [filter, setFilter] = useState('all');
   const [toast, setToast] = useState([]);
 
+  // Attempt to connect to the MySQL Database
   useEffect(() => {
-    const savedExpense = JSON.parse(localStorage.getItem('expense'));
-    if(savedExpense){
-      setExpense(savedExpense);
-    }
-  }, [])
+   fetchData()
+  }, []);
   
+  const fetchData = () =>{
+    fetch('http://localhost:8081/expense')
+    .then(res => res.json())
+    .then(data => setExpense(data))
+    .catch(err => console.log(err));
+  }
 
-  useEffect(() => {
-    if(expense.length > 0 ){
-      localStorage.setItem("expense", JSON.stringify(expense))
-    }
-  }, [expense])
+  // useEffect(() => {
+  //   const savedExpense = JSON.parse(localStorage.getItem('expense'));
+  //   if(savedExpense){
+  //     setExpense(savedExpense);
+  //   }
+  // }, [])
+  
+  // useEffect(() => {
+  //   if(expense.length > 0 ){
+  //     localStorage.setItem("expense", JSON.stringify(expense))
+  //   }
+  // }, [expense])
   
 
   const showToast = (message, type="success") =>{
@@ -88,7 +99,7 @@ function App() {
 
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
           <div className="xl:col-span-2">
-            <AddExpenseForm formData={formData} setFormData={setFormData} editingId={editingId} setIsEditingId={setIsEditingId} expense={expense} setExpense={setExpense} showToast={showToast} />
+            <AddExpenseForm formData={formData} setFormData={setFormData} editingId={editingId} setIsEditingId={setIsEditingId} expense={expense} setExpense={setExpense} showToast={showToast} fetchData={fetchData} />
           </div>
 
           <div className="xl:col-span-3">

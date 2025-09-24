@@ -6,7 +6,7 @@ function Toast({Toast, removeToast}) {
     <div className='fixed top-4 right-4 z-50 space-y-2'>
       {Toast.map((t)=>{
         return(
-          <div className={`flex items-center p-4 rounded-lg shadow-lg backdrop-blur-sm border transform transition-all duration-300 easy-in-out ${
+          <div key={t.id} className={`flex items-center p-4 rounded-lg shadow-lg backdrop-blur-sm border transform transition-all duration-300 easy-in-out ${
           t.type === "success" ? 'bg-green-900/80 border-green-700 text-green-100' : 
           t.type === "error" ? 'bg-red-900/80 border-red-700 text-red-100' : 
           'bg-yellow-900/80 border-yellow-700 text-yellow-100'
