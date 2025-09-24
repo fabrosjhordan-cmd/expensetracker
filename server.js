@@ -1,6 +1,6 @@
-const express = require('express');
-const mysql = require('mysql');
-const cors = require('cors');
+import express from 'express';
+import mysql from 'mysql';
+import cors from 'cors';
 
 const app = express()
 app.use(cors());
@@ -53,6 +53,16 @@ app.put('/expense/:id', (req, res)=>{
         return res.json({message: "Updated Successfully"})
     });
 });
+
+app.delete('/expense/:id', (req, res)=>{
+    const id = req.params.id;
+    const sql = "DELETE FROM expense WHERE id = ?"
+
+    db.query(sql, [id], (err, result)=>{
+        if(err) return res.json(err);
+        return res.json({message: "Expense deleted successfully.", affectedRows: result.affectedRows})
+    })
+})
 
 app.listen(8081, ()=>{
     console.log('The Server is Listening');

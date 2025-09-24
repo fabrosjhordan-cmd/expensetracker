@@ -19,7 +19,6 @@ function App() {
   const [filter, setFilter] = useState('all');
   const [toast, setToast] = useState([]);
 
-  // Attempt to connect to the MySQL Database
   useEffect(() => {
    fetchData()
   }, []);
@@ -68,7 +67,6 @@ function App() {
   const filterExpenses = expense.filter((exp)=>{
     if(filter === 'all') return true;
     return exp.type === filter;
-
   })
 
   const handleEdit = (expense) =>{
@@ -83,9 +81,18 @@ function App() {
     showToast("Entry loaded for editing.", 'info')
   }
 
-  const handleDelete= (id) =>{
+  const handleDelete = (id) =>{
     const expenseToDelete = expense.find((exp)=> exp.id === id)
-    setExpense(expense.filter((exp)=> exp.id !== id))
+    fetch(`http://localhost:8081/expense/${id}`,{
+      method: "DELETE"
+    })
+    .then((res)=>res.json())
+    .then((result)=>{
+      console.log(result)
+      setExpense(expense.filter((item)=> item.id !== id))
+    })
+    .catch((err)=> console.log(err));
+    // setExpense(expense.filter((exp)=> exp.id !== id))
     showToast(`${expenseToDelete?.type === 'income' ? 'Income' : 'Expense'} deleted successfully`, 'error')
   }
 
